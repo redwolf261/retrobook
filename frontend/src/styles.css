@@ -1,0 +1,361 @@
+:root {
+  --bg-1: #0b1017;
+  --bg-2: #141d29;
+  --panel: #1b2736;
+  --paper: #f1eadf;
+  --paper-edge: #e6dccb;
+  --text-light: #f4f7fb;
+  --text-dim: #99a6b8;
+  --accent: #d3a85f;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  min-height: 100vh;
+  font-family: "Manrope", "Segoe UI", sans-serif;
+  color: var(--text-light);
+  background:
+    radial-gradient(circle at 20% 15%, #1a2844 0%, transparent 38%),
+    radial-gradient(circle at 80% 80%, #2a1f14 0%, transparent 34%),
+    linear-gradient(145deg, #0a0d12, #101620);
+}
+
+.app-shell {
+  min-height: 100vh;
+  display: grid;
+  grid-template-rows: auto 1fr auto;
+  gap: 0.5rem;
+  padding: 0.5rem 0.75rem;
+}
+
+.topbar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  height: 60px;
+  padding: 0 0.75rem;
+  gap: 0.75rem;
+}
+
+.topbar h1 {
+  margin: 0;
+  font-family: "Cormorant Garamond", Georgia, serif;
+  font-size: 1.3rem;
+  letter-spacing: 0.03em;
+  flex-shrink: 1;
+}
+
+.hamburger-btn {
+  background: transparent;
+  border: none;
+  color: var(--accent);
+  font-size: 1.4rem;
+  cursor: pointer;
+  padding: 0.4rem;
+  border-radius: 6px;
+  transition: background 200ms ease;
+}
+
+.hamburger-btn:hover {
+  background: rgba(211, 168, 95, 0.1);
+}
+
+.modal {
+  position: fixed;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+  opacity: 1;
+  transition: opacity 220ms ease;
+  pointer-events: auto;
+}
+
+.modal.hidden {
+  opacity: 0;
+  pointer-events: none;
+}
+
+.modal-overlay {
+  position: absolute;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.72);
+  z-index: 1;
+}
+
+.modal-content {
+  position: relative;
+  background: var(--panel);
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  border-radius: 12px;
+  padding: 2rem 1.5rem;
+  min-width: 340px;
+  max-width: 90vw;
+  z-index: 2;
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.6);
+}
+
+.modal-close {
+  position: absolute;
+  top: 0.75rem;
+  right: 0.75rem;
+  background: transparent;
+  border: none;
+  color: var(--text-dim);
+  font-size: 1.2rem;
+  cursor: pointer;
+  padding: 0.4rem;
+  border-radius: 4px;
+  transition: color 200ms ease;
+}
+
+.modal-close:hover {
+  color: var(--text-light);
+}
+
+.upload-form {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+  align-items: stretch;
+}
+
+.upload-form input {
+  color: var(--text-light);
+  padding: 0.7rem 0.8rem;
+  background: rgba(14, 20, 30, 0.75);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  border-radius: 6px;
+  font-size: 0.95rem;
+  width: 100%;
+}
+
+.upload-form button,
+.controls button {
+  border: 0;
+  background: linear-gradient(120deg, #ba8d45, var(--accent));
+  color: #111;
+  font-weight: 600;
+  border-radius: 999px;
+  padding: 0.5rem 0.9rem;
+  cursor: pointer;
+}
+
+.viewer-area {
+  display: grid;
+  place-items: center;
+  position: relative;
+  overflow: hidden;
+}
+
+.status {
+  color: var(--text-dim);
+}
+
+.loader {
+  margin-bottom: 0.5rem;
+  color: var(--accent);
+  font-weight: 600;
+}
+
+.hidden {
+  display: none;
+}
+
+.book-wrapper {
+  width: min(98vw, 1400px);
+  height: min(82vh, 920px);
+  display: grid;
+  place-items: center;
+  perspective: 2200px;
+}
+
+.book {
+  filter: drop-shadow(0 18px 48px rgba(0, 0, 0, 0.55));
+  transform-origin: center center;
+  transition: transform 220ms ease;
+  cursor: grab;
+  will-change: transform, filter;
+}
+
+.book:active {
+  cursor: grabbing;
+}
+
+.page {
+  background: linear-gradient(180deg, var(--paper), var(--paper-edge));
+  overflow: hidden;
+  position: relative;
+  will-change: opacity;
+}
+
+.page::after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  right: 0;
+  width: 60px;
+  height: 60px;
+  background: radial-gradient(circle at 0 0, rgba(200, 160, 100, 0.3), transparent 70%);
+  pointer-events: none;
+}
+
+.page:hover::after {
+  animation: corner-hint 1.2s ease-in-out infinite;
+}
+
+@keyframes corner-hint {
+  0%, 100% {
+    opacity: 0.3;
+  }
+  50% {
+    opacity: 0.6;
+  }
+}
+
+.page-inner {
+  width: 100%;
+  height: 100%;
+  display: grid;
+  place-items: center;
+  color: #333;
+  font-size: 0.95rem;
+}
+
+.page-inner img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  display: block;
+}
+
+.page-inner.loading {
+  background-image: repeating-linear-gradient(
+    -45deg,
+    rgba(255, 255, 255, 0.24) 0,
+    rgba(255, 255, 255, 0.24) 14px,
+    rgba(255, 255, 255, 0.05) 14px,
+    rgba(255, 255, 255, 0.05) 28px
+  );
+  animation: shimmer 1.1s linear infinite;
+}
+
+.controls {
+  display: flex;
+  gap: 1rem;
+  justify-content: center;
+  align-items: center;
+  flex-wrap: wrap;
+  color: var(--text-dim);
+}
+
+.control-group {
+  display: flex;
+  gap: 0.5rem;
+  align-items: center;
+  padding: 0 0.5rem;
+  border-right: 1px solid rgba(255, 255, 255, 0.15);
+}
+
+.control-group:last-child {
+  border-right: none;
+}
+
+.controls input {
+  width: 60px;
+  padding: 0.45rem 0.6rem;
+  border-radius: 6px;
+  border: 1px solid rgba(255, 255, 255, 0.25);
+  background: rgba(14, 20, 30, 0.75);
+  color: var(--text-light);
+  font-size: 0.9rem;
+}
+
+@keyframes shimmer {
+  from {
+    background-position: 0 0;
+  }
+  to {
+    background-position: 44px 44px;
+  }
+}
+
+@media (max-width: 900px) {
+  .topbar h1 {
+    font-size: 1.1rem;
+  }
+
+  .book-wrapper {
+    height: min(72vh, 660px);
+  }
+
+  .modal-content {
+    min-width: 90vw;
+    padding: 1.5rem 1rem;
+  }
+
+  .controls {
+    gap: 0.6rem;
+  }
+
+  .control-group {
+    padding: 0 0.3rem;
+    border-right: none;
+  }
+
+  .controls button,
+  .controls input {
+    font-size: 0.8rem;
+    padding: 0.4rem 0.7rem;
+  }
+}
+
+/* Immersion Mode - Fullscreen Reading */
+body.immersion-active {
+  background: var(--bg-1);
+}
+
+body.immersion-active .topbar {
+  display: none;
+}
+
+body.immersion-active .controls {
+  display: none;
+}
+
+body.immersion-active .app-shell {
+  grid-template-rows: 1fr;
+  gap: 0;
+  padding: 0;
+}
+
+body.immersion-active .viewer-area {
+  height: 100vh;
+  width: 100vw;
+}
+
+body.immersion-active .book-wrapper {
+  width: 100vw;
+  height: 100vh;
+  border-radius: 0;
+}
+
+/* Fit-to-Width Reading Mode */
+.book-wrapper.fit-width-active {
+  width: 100vw;
+  height: auto;
+  max-height: 90vh;
+  padding: 1rem 0;
+}
+
+.book-wrapper.fit-width-active .page {
+  aspect-ratio: auto;
+  width: 100vw;
+  height: auto;
+  max-height: 85vh;
+}

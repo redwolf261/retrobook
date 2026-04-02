@@ -1,0 +1,63 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>PDF Flipbook</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@500;700&family=Manrope:wght@400;600&display=swap" rel="stylesheet" />
+  </head>
+  <body>
+    <div class="app-shell">
+      <header class="topbar">
+        <h1>PDF Flipbook Studio</h1>
+        <button id="hamburger-btn" class="hamburger-btn" aria-label="Menu" title="Open menu">☰</button>
+      </header>
+
+      <div id="pdf-modal" class="modal hidden">
+        <div class="modal-overlay"></div>
+        <div class="modal-content">
+          <button id="modal-close-btn" class="modal-close" aria-label="Close menu">✕</button>
+          <form id="upload-form" class="upload-form">
+            <input id="pdf-input" type="file" accept="application/pdf" required />
+            <button type="submit">Open PDF</button>
+            <button id="sample-btn" type="button">Try Sample</button>
+          </form>
+        </div>
+      </div>
+
+      <main class="viewer-area">
+        <div id="status" class="status">📖 Upload a PDF to create your page-flipping book.</div>
+        <div id="loader" class="loader hidden">Processing PDF...</div>
+        <div id="book-wrapper" class="book-wrapper hidden">
+          <div id="book" class="book"></div>
+        </div>
+      </main>
+
+      <footer class="controls">
+        <div class="control-group">
+          <button id="prev-btn" type="button" title="Previous page (←)">❮ Prev</button>
+          <button id="next-btn" type="button" title="Next page (→)">Next ❯</button>
+        </div>
+        <div class="control-group">
+          <button id="zoom-out-btn" type="button" title="Zoom out">− Zoom Out</button>
+          <button id="zoom-in-btn" type="button" title="Zoom in">+ Zoom In</button>
+          <button id="fit-width-btn" type="button" title="Toggle fit-to-width reading mode">📄 Fit Width</button>
+        </div>
+        <div class="control-group">
+          <span id="page-indicator" title="Current page">Page 0 / 0</span>
+        </div>
+        <div class="control-group">
+          <input id="page-jump-input" type="number" min="1" value="1" placeholder="Page #" title="Jump to page number" />
+          <button id="page-jump-btn" type="button" title="Jump to page">Go</button>
+          <button id="bookmark-btn" type="button" title="Bookmark this page">⭐ Mark</button>
+          <button id="open-bookmark-btn" type="button" title="Load bookmark">📖 Open</button>
+          <button id="immersion-btn" type="button" title="Fullscreen reading (ESC to exit)">⛶ Fullscreen</button>
+        </div>
+      </footer>
+    </div>
+
+    <script type="module" src="/src/main.js"></script>
+  </body>
+</html>
